@@ -7,7 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ChevronDown } from "lucide-react";
 import { SearchResult } from "./github-repo-search";
+import { Button } from "./ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 export function ResultsTable({
   searchResults,
@@ -27,20 +34,36 @@ export function ResultsTable({
           <TableRow key={index}>
             <TableCell>{result.query}</TableCell>
             <TableCell>
-              {!result.downloadURLs
-                ? "Not found."
-                : result.downloadURLs.map((url) => (
-                    <p key={url}>
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        {url}
-                      </a>
-                    </p>
-                  ))}
+              {!result.downloadURLs ? (
+                "Not found."
+              ) : (
+                <Collapsible key={result.query} defaultOpen={true}>
+                  <CollapsibleTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-between"
+                      aria-controls="collapsible-content"
+                    >
+                      <span>{"GitHub URLs"}</span>
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    {result.downloadURLs.map((url) => (
+                      <p key={url}>
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          {url}
+                        </a>
+                      </p>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+              )}
             </TableCell>
           </TableRow>
         ))}
