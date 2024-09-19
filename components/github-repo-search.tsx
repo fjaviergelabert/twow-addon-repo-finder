@@ -10,7 +10,11 @@ export type SearchResult = {
   downloadURLs: string[] | null;
 };
 
-export function GithubRepoSearch() {
+export function GithubRepoSearch({
+  fetchGithubRepo,
+}: {
+  fetchGithubRepo?: any;
+}) {
   const [directories, setDirectories] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,40 +22,37 @@ export function GithubRepoSearch() {
   const handleSearch = useCallback(async () => {
     setIsLoading(true);
 
-    function createFetchGithubRepo(prefix?: string) {
-      return async function fetchGithubRepo(query: string) {
-        const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(
-          `${prefix ? prefix : ""}${query}`
-        )}`;
+    async function fetchGithubRepo(query: string, prefix = "") {
+      const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(
+        `${prefix}${query}`
+      )}`;
 
-        const response = await fetch(url, {
-          headers: {
-            Authorization: `Bearer  ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-        });
-        const data: { items: { html_url: string }[] } = await response.json();
-        if (data?.items?.length > 0) {
-          return {
-            query,
-            downloadURLs: data.items.slice(0, 3).map((item) => item.html_url),
-          };
-        }
-
-        return { query, downloadURLs: null };
-      };
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer  ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      });
+      const data: { items: { html_url: string }[] } = await response.json();
+      if (data?.items?.length > 0) {
+        return {
+          query,
+          downloadURLs: data.items.slice(0, 3).map((item) => item.html_url),
+        };
+      }
+      return { query, downloadURLs: null };
     }
 
     try {
       const turtleResults = await Promise.all(
-        directories.map(
-          createFetchGithubRepo(`"turtle" in:readme in:description `)
+        directories.map((d) =>
+          fetchGithubRepo(d, `"turtle" in:readme in:description `)
         )
       );
 
       const results = await Promise.all(
         turtleResults.map((result) =>
-          !result.downloadURLs ? createFetchGithubRepo()(result.query) : result
+          !result.downloadURLs ? fetchGithubRepo(result.query) : result
         )
       );
 
