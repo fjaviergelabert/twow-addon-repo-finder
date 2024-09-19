@@ -65,8 +65,12 @@ export function GithubRepoSearch() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex gap-4 items-center">
-        <div className={`${directories.length > 0 ? "w-1/3" : "w-full"}`}>
+      <div className="flex flex-col gap-4 items-center md:flex-row justify-center">
+        <div
+          className={`w-full md:w-1/3 ${
+            searchResults.length > 0 ? "hidden md:block" : "block"
+          }`}
+        >
           <DirectoryExplorer
             directories={directories}
             onDirectorySelect={setDirectories}
@@ -75,13 +79,24 @@ export function GithubRepoSearch() {
 
         {directories.length > 0 && (
           <>
-            <div className="flex items-center">
-              <Button onClick={handleSearch} disabled={isLoading}>
+            <div
+              className={`flex items-center ${
+                searchResults.length > 0 ? "hidden" : "block"
+              } md:flex`}
+            >
+              <Button
+                onClick={handleSearch}
+                disabled={isLoading || searchResults.length > 0}
+              >
                 {isLoading ? "Searching..." : "Search GitHub"}
               </Button>
             </div>
 
-            <div className="w-1/2">
+            <div
+              className={`w-full md:w-1/2 ${
+                searchResults.length === 0 ? "hidden md:block" : "block"
+              }`}
+            >
               <h2 className="text-lg font-semibold mb-2">
                 Github download URLs
               </h2>
