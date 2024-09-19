@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { GITHUB_TOKEN } from "@/lib/utils";
 import { useCallback, useState } from "react";
 import { DirectoryExplorer } from "./directory-explorer";
 import { ResultsTable } from "./results-table";
@@ -27,12 +26,12 @@ export function GithubRepoSearch() {
 
         const response = await fetch(url, {
           headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Authorization: `Bearer  ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
             Accept: "application/vnd.github.v3+json",
           },
         });
         const data: { items: { html_url: string }[] } = await response.json();
-        if (data?.items.length > 0) {
+        if (data?.items?.length > 0) {
           return {
             query,
             downloadURLs: data.items.slice(0, 3).map((item) => item.html_url),
