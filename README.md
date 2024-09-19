@@ -1,36 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Addon GitHub Repository Finder
 
-## Getting Started
+<a href="https://your-vercel-deployment-url.vercel.app" style="display: inline-block; padding: 10px 20px; font-size: 16px; font-weight: bold; text-align: center; color: #fff; background-color: #0070f3; border-radius: 5px; text-decoration: none;">Find your Addons!</a>
 
-First, run the development server:
+## Purpose
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The **GitHub Repository Finder** is a tool designed to help Turtle Wow Players find Addon repository names for [**GitAddonsManager**](https://woblight.gitlab.io/overview/gitaddonsmanager/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The GitHub Repository Finder is deployed on Vercel and can be accessed through the following link:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[**GitHub Repository Finder - Live Demo**](https://your-vercel-deployment-url.vercel.app)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Simply visit the link, input the URL or path to the repositories you want to analyze, and view the results. No installation is required for end users; just open the website and use it!
