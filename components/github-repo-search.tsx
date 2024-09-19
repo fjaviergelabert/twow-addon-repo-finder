@@ -8,7 +8,7 @@ import { ResultsTable } from "./results-table";
 
 export type SearchResult = {
   query: string;
-  downloadUrl: string;
+  downloadURLs: string[] | null;
 };
 
 export function GithubRepoSearch() {
@@ -31,13 +31,15 @@ export function GithubRepoSearch() {
             Accept: "application/vnd.github.v3+json",
           },
         });
-        const data = await response.json();
-        // If the first query has results, return them
-        if (data.items && data.items.length > 0) {
-          return { query, downloadUrl: data.items[0].html_url };
+        const data: { items: { html_url: string }[] } = await response.json();
+        if (data?.items.length > 0) {
+          return {
+            query,
+            downloadURLs: data.items.slice(0, 3).map((item) => item.html_url),
+          };
         }
 
-        return { query, downloadUrl: "Not found." };
+        return { query, downloadURLs: null };
       };
     }
 
@@ -50,18 +52,14 @@ export function GithubRepoSearch() {
 
       const results = await Promise.all(
         turtleResults.map((result) =>
-          result.downloadUrl === "Not found."
-            ? createFetchGithubRepo()(result.query)
-            : result
+          !result.downloadURLs ? createFetchGithubRepo()(result.query) : result
         )
       );
-
-      console.log(results);
 
       setSearchResults(results);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching GitHub repositories:", error);
+      console.error("Error while fetching GitHub repositories:", error);
     }
   }, [directories]);
 

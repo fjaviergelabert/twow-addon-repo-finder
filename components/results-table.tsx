@@ -27,19 +27,20 @@ export function ResultsTable({
           <TableRow key={index}>
             <TableCell>{result.query}</TableCell>
             <TableCell>
-              {result.downloadUrl === "Not found." ||
-              result.downloadUrl === "Error occurred." ? (
-                result.downloadUrl
-              ) : (
-                <a
-                  href={result.downloadUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  {result.downloadUrl}
-                </a>
-              )}
+              {!result.downloadURLs
+                ? "Not found."
+                : result.downloadURLs.map((url) => (
+                    <p key={url}>
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {url}
+                      </a>
+                    </p>
+                  ))}
             </TableCell>
           </TableRow>
         ))}
