@@ -4,4 +4,4 @@
 
 ## Purpose
 
-The **GitHub Repository Finder** is a tool designed to help Turtle Wow Players find Addon repository names for [**GitAddonsManager**](https://woblight.gitlab.io/overview/gitaddonsmanager/)
+This is a tool designed to help Turtle Wow Players find Addon repository names for [**GitAddonsManager**](https://woblight.gitlab.io/overview/gitaddonsmanager/)
