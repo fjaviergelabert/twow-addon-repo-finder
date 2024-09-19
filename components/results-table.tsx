@@ -37,7 +37,7 @@ export function ResultsTable({
               {!result.downloadURLs ? (
                 "Not found."
               ) : (
-                <Collapsible key={result.query} defaultOpen={true}>
+                <Collapsible key={result.query}>
                   <CollapsibleTrigger asChild>
                     <Button
                       variant="outline"
