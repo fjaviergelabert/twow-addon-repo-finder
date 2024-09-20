@@ -23,7 +23,7 @@ export function GithubRepoSearch() {
       <div className="flex flex-col gap-4 items-center md:flex-row justify-center">
         <div
           className={`w-full md:w-1/3 ${
-            searchResults.length > 0 ? "hidden md:block" : "block"
+            searchResults!.length > 0 ? "hidden md:block" : "block"
           }`}
         >
           <DirectoryExplorer
@@ -36,12 +36,12 @@ export function GithubRepoSearch() {
           <>
             <div
               className={`flex items-center ${
-                searchResults.length > 0 ? "hidden" : "block"
+                searchResults!.length > 0 ? "hidden" : "block"
               } md:flex`}
             >
               <Button
                 onClick={() => searchFetch(directories)}
-                disabled={isLoading || searchResults.length > 0}
+                disabled={isLoading || searchResults!.length > 0}
               >
                 {isLoading ? "Searching..." : "Search GitHub"}
               </Button>
@@ -49,13 +49,13 @@ export function GithubRepoSearch() {
 
             <div
               className={`w-full md:w-1/2 ${
-                searchResults.length === 0 ? "hidden md:block" : "block"
+                searchResults!.length === 0 ? "hidden md:block" : "block"
               }`}
             >
               <h2 className="text-lg font-semibold mb-2">
                 Github download URLs
               </h2>
-              <ResultsTable searchResults={searchResults} />
+              <ResultsTable searchResults={searchResults!} />
             </div>
           </>
         )}
