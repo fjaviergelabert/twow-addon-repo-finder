@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCallback, useState } from "react";
+import { handleSearch } from "@/lib/actions";
+import { useActionState, useState } from "react";
 import { DirectoryExplorer } from "./directory-explorer";
 import { ResultsTable } from "./results-table";
 
@@ -10,58 +11,12 @@ export type SearchResult = {
   downloadURLs: string[] | null;
 };
 
-export function GithubRepoSearch({
-  fetchGithubRepo,
-}: {
-  fetchGithubRepo?: any;
-}) {
+export function GithubRepoSearch() {
   const [directories, setDirectories] = useState<string[]>([]);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSearch = useCallback(async () => {
-    setIsLoading(true);
-
-    async function fetchGithubRepo(query: string, prefix = "") {
-      const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(
-        `${prefix}${query}`
-      )}`;
-
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer  ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      });
-      const data: { items: { html_url: string }[] } = await response.json();
-      if (data?.items?.length > 0) {
-        return {
-          query,
-          downloadURLs: data.items.slice(0, 3).map((item) => item.html_url),
-        };
-      }
-      return { query, downloadURLs: null };
-    }
-
-    try {
-      const turtleResults = await Promise.all(
-        directories.map((d) =>
-          fetchGithubRepo(d, `"turtle" in:readme in:description `)
-        )
-      );
-
-      const results = await Promise.all(
-        turtleResults.map((result) =>
-          !result.downloadURLs ? fetchGithubRepo(result.query) : result
-        )
-      );
-
-      setSearchResults(results);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error while fetching GitHub repositories:", error);
-    }
-  }, [directories]);
+  const [searchResults, searchFetch, isLoading] = useActionState(
+    handleSearch,
+    []
+  );
 
   return (
     <div className="container mx-auto p-4">
@@ -85,7 +40,7 @@ export function GithubRepoSearch({
               } md:flex`}
             >
               <Button
-                onClick={handleSearch}
+                onClick={() => searchFetch(directories)}
                 disabled={isLoading || searchResults.length > 0}
               >
                 {isLoading ? "Searching..." : "Search GitHub"}
