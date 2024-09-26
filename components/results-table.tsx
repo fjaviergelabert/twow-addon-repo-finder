@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ChevronDown } from "lucide-react";
+import { CopyButton } from "./copy-button";
 import { SearchResult } from "./github-repo-search";
 import { Button } from "./ui/button";
 import {
@@ -50,7 +51,7 @@ export function ResultsTable({
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     {result.downloadURLs.map((url) => (
-                      <p key={url}>
+                      <CopyButton key={url} text={url}>
                         <a
                           href={url}
                           target="_blank"
@@ -59,7 +60,7 @@ export function ResultsTable({
                         >
                           {url}
                         </a>
-                      </p>
+                      </CopyButton>
                     ))}
                   </CollapsibleContent>
                 </Collapsible>
